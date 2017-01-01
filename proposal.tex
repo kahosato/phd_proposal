@@ -1,212 +1,222 @@
 \documentclass[11pt]{article}
-\title{Research Proposal}
+
+\usepackage[round]{natbib}
+\usepackage{enumitem}
+\usepackage{color}
+
+
+\title{Improving error detection / correction in English texts of a non-native speaker by using the information about their first language}
 \author{
  Kaho Sato\\
   \texttt{ks789@cam.ac.uk}
 }
-\usepackage[round]{natbib}
-\usepackage{enumitem}
 
 \begin{document}
 \maketitle
+
 \section{Introduction}
 As internationalisation progresses at a rapid rate, there is a high global 
 interest in learning English, arguably the current lingua franca of the world. 
-Application of Natural Language Processing (NLP) techniques to create systems 
+Application of Natural Language Processing (NLP) techniques to creating systems 
 that automatically assess learners' writing in English has been an active field 
 of research, with the aim of making language learning more accessible. In 
-particular, there have been many works on automatic grammatical error detection 
+particular, there has been much work on automatic grammatical error detection 
 and correction in texts produced by non-native speakers of 
 English~\citep{izumi2003automatic, eeg2003automatic, han2006detecting, 
 tetreault2008ups, de2008classifier, gamon2008using, gamon2010using, 
-ng2014conll}. Especially for learners with low proficiency in English, 
-grammatical errors are one of the primary problems that they need to overcome. 
+ng2014conll}.
+For learners with low proficiency in English in particular, 
+grammatical errors are one of the primary problems that they need to overcome,
+along with vocabulary deficits and incorrect pronunciation. 
 Therefore, automating grammatical error detection and correction has a great 
-impact in learning. Grammatical error detection and correction are not only 
-useful for the educational purpose, but also can be used to improve writing 
+impact on learning. Grammatical error detection and correction are not only 
+useful for the educational purposes, but also can be used to improve writing 
 assistance systems which are typically incorporated in word processors like 
-Microsoft Word. Catering to the need of non-native speakers who outnumber native 
-speakers by a ratio of 3 to 1~\citep{sussex1999david} is commercially 
-beneficial, therefore has been stirring up high interest in this particular 
-sub-field of NLP. In the following, I exclusively discuss grammatical error 
-detection and correction in text produced by \emph{non-native speakers}, whom I 
-will refer to as ``authors''.
+Microsoft Word. Catering to the needs of non-native speakers who outnumber native speakers by a ratio of 3 to 1~\citep{sussex1999david} is commercially 
+beneficial, therefore it has been stirring up high interest in this particular 
+sub-field of NLP.
 
-Specifically, I would like to investigate how the knowledge of authors' first 
-language (L1) could improve error detection and correction in their texts 
+In the following, I exclusively discuss grammatical error 
+detection and correction in texts produced by \emph{non-native speakers}, whom I will refer to as ``authors'' or ``learners''.
+
+\color{black}Specifically, I would like to investigate how the knowledge of authors' first 
+language (L1) could improve error detection and correction in texts 
 written in their second language (L2). This idea is based on \emph{Contrastive 
 Analysis Hypothesis} proposed by \cite{lado1957linguistics}, which states that 
-the difference between one's L1 and L2 determines the difficulty in acquiring L2 
-and the errors they make in L2. 
-When using L2, one often applies the knowledge from their L1; this phenomenon is 
-often referred to as L1 transfer~\citep{wanner1982language, frenck1997syntactic, 
+the difference between one's L1 and L2 determines the difficulty in acquiring L2 and the errors learners make in L2. 
+When using L2, one often applies the knowledge from their L1; this phenomenon is referred to as {\em L1 transfer}~\citep{wanner1982language, frenck1997syntactic, 
 dussias2003syntactic, nitschke2010first}. Though this interference may result in 
-a grammatically sound output, it may as well leads to errors. For instance, an 
-Italian speaker may say ``*I have 20 years'' instead of ``I am 20 years old'', 
+a grammatically sound output, it may as well lead to errors. For instance, an 
+Italian speaker may say {\em ``*I have 20 years''} instead of {\em ``I am 20 years old''}, 
 as it is the direct translation of the equivalent expression in Italian. Though 
 not all the errors made in L2 can be described by L1 transfer, knowing which 
-errors it may caused should improve error detection and correction.
+errors it may cause should improve error detection and correction.
 
-As stated previously, much work has been done in automatic grammatical error 
+As stated previously, much work has been done on automatic grammatical error 
 detection and correction. Errors which have been explored the most are article 
 errors~\citep{han2006detecting, rozovskaya2010training, turner2007language, 
 dahlmeier2011grammatical, de2008classifier} and preposition 
 errors~\citep{bergsma2009web, tetreault2008ups, tetreault2010using, 
-dahlmeier2011grammatical, de2008classifier, chodorow2007detection}. This is 
-hardly surprising, as they are the most frequent error types and their confusion 
-sets are finite since they are closed-class, which makes the error detection and 
-correction essentially an n-class classification problem. These errors were the 
-main focus of the 2012 HOO Shared Task~\citep{dale2012hoo} and 14 teams have 
+dahlmeier2011grammatical, de2008classifier, chodorow2007detection}.
+%This is hardly surprising, as they are the most frequent error types and their confusion 
+%sets are finite since they are closed-class, which makes the error detection and 
+%correction essentially an n-class classification problem.
+This is not only because these errors occur most frequently, but also because there is a clear approach to their detection and correction, which is to use \emph{classification} algorithms.
+Classification is the problem in machine learning which concerns with choosing the category to which an observation belongs from a finite set of categories.
+There is a wealth of algorithms that solve a classification problem, such as Naive Bayes classifier, Logistic Regression, Decision Trees, Support Vector Machine and Neural Networks, to name a few.
+Both articles and prepositions are \emph{closed class}, meaning that they rarely or never acquire new members.
+Consequently, the set of words in a closed class is small enough that one may use any of the classification algorithms to classify each occurrence into a word in the set which should be used in the occurrence.
+If the algorithm classifies the occurrence into a different word from the word which was actually used by the author,
+then the error is detected and correction is done by substituting the word used by the author with the chosen word.
+Article and preposition errors were the main focus of the 2012 HOO Shared Task~\citep{dale2012hoo} where 14 teams have 
 presented a system that detects and corrects them.
+They were also included in the set of error types in the CoNLL 2013 and CoNLL 2014 Shared Tasks on Grammatical Error Correction~\citep{CoNLLST:2013, ng2014conll}.
 
-Collocation errors are also well-studied~\citep{shei2000esl, 
-wible2003bootstrapping, futagi2008computational, liu2009automated}, though to a 
-lesser extent. This is possibly due to their complexity; the size of confusion 
-sets is almost infinite and detection or correction of them can not be treated 
-as a classification problem. It instead is necessary to identify potentially 
-ambiguous triggers first, and then determining the type of mistake made and 
-correcting it. In other words, error correction and detection are two separate 
-tasks when we consider open class words errors.
-
+There also have been some attempts on collocation errors~\citep{shei2000esl, 
+wible2003bootstrapping, futagi2008computational, liu2009automated}, though they have been less successful.
+Unfortunately, we can not straightforwardly apply the approaches used for article and preposition errors for two reasons.
+Firstly, collocation errors often involve \emph{open class} words, such as verbs and nouns, which acquire new members constantly. This gives an infinite number of candidate words to substitute for a word in collocations. For example, take a phrase ``\emph{*see TV}''. Unlike for articles or preposition errors, we can not use a classification algorithm to choose the right word from all the words in the same class as ``\emph{see}'', as there are simply too many verbs in English.
+Secondly, it is necessary to first identify whether a particular collocation is incorrect before making a correction. For example, ``\emph{a marvellous film}'' is a perfectly acceptable phrase, and we do not want to change it to ``\emph{a good film}'', simply because the latter phrase occurs more frequently. This means that error correction and detection are two separate 
+tasks when we consider collocation errors.
+ 
 It has been shown that the knowledge on authors' L1 improves algorithms that 
 detect and correct errors in the use of prepositions or 
 articles~\citep{rozovskaya2010generating, rozovskaya2011algorithm}. There have 
 also been similar works for collocation errors~\citep{chang2008automatic, 
 dahlmeier2011correcting, shei2000esl, liu2009automated}. However, I believe that 
 there is still much room for investigation on how authors' L1 can be used for 
-the errors in the use of open-class words for two reasons. Firstly, out of many 
-types of errors one can make with open-class words, most works focus on 
-verb-noun collocation errors~\citep{chang2008automatic, shei2000esl, 
-liu2009automated}. Other errors such as verb form errors or other types of 
-collocation errors are yet to be explored. Secondly, most of the works on errors 
-with open-class words focus on correction of 
-them~\citep{dahlmeier2011correcting, chang2008automatic} and there has been 
-little work on L1-specific detection of errors with open-class words.  In my 
-research, I would like to carry out a thorough investigation on this very 
+detecting and correcting the grammatical errors for three reasons:
+\begin{enumerate}
+\item Out of many 
+types of collocation, most previous research focused on 
+verb-noun collocation errors (e.g. \emph{*see/watch TV})~\citep{chang2008automatic, shei2000esl, 
+liu2009automated}. Other kinds of collocation such as adjective-noun collocation (e.g. \emph{*big/long conversation}) or adverb-adjective collocation (e.g. \emph{*blissfully/joyfully unaware}) are yet to be explored.
+\item Most of the previous research on collocation errors focused on correction~\citep{dahlmeier2011correcting, chang2008automatic} and there has been 
+little work on L1-specific detection.
+\item There is hardly any work on how L1 can be used to improve detection and correction of errors beyond article, preposition and collocation errors.
+\end{enumerate}
+In my research, I would like to carry out a thorough investigation on this very 
 promising, yet underexplored approach to automatic grammatical error detection 
 and correction.
-
 \section{Proposal}
-\subsection{Experiment to motivate the use of L1 in error detection and 
-correction}
+\subsection{Use of L1 for error detection and correction}
 \label{sub:experiment}
-The partial reason why there is not much work that takes authors' L1 into 
-consideration is that not in every situation their L1 is known. For instance, 
-shared tasks that focuses on grammatical error detection and corrections such as 
-the HOO shared tasks and the CoNLL shared tasks do not reveal L1 of the authors 
+One of the reasons why there is not much work that takes authors' L1 into 
+consideration is that often learner's L1 is not known. For instance, 
+shared tasks that focus on grammatical error detection and correction such as 
+the HOO and the CoNLL shared tasks do not reveal L1 of the authors 
 of the texts in the dataset and it is not likely that word processors such as 
-Microsoft Word would know L1 of the user. In my MPhil project, I would like to 
+Microsoft Word would know L1 of the user. In my MPhil project, I plan to 
 investigate whether a pipeline of L1 identification algorithm and error 
-correction algorithm outperforms systems that does not use authors' L1. If it 
+correction algorithm outperforms systems that do not use authors' L1s. If it 
 does, it makes a very strong case for the use of L1 in error detection and 
-correction. The L1 identification task has been investigated by various research 
-\citep{estival2007author, tomokiyo2001you, koppel2005determining, 
+correction. The L1 identification task has been investigated previously \citep{estival2007author, tomokiyo2001you, koppel2005determining, 
 koppel2005automatically, wong2009contrastive, kochmar2011identification}. 
-However, as far as I am aware, there is no work that connects an L1 
-identification and error correction algorithms. Clearly, the performance of such 
+However, to the best of my knowledge, previous work has not looked into connecting L1 identification and error detection and correction. Clearly, the performance of such 
 a pipeline highly depends on the accuracy of the L1 identification algorithm and 
-I plan to build on and improve the previous works.
+I plan to build on and improve the previous approaches.
 
-Only a part of L1 that can be observed in Cambridge Learner Corpus is covered by 
+Only a few L1s that can be observed in Cambridge Learner Corpus are covered by 
 the existing works. For instance, \cite{kochmar2011identification} focuses on 
-distinguishing texts written by five Romance languages (Italian, Catalan, 
+distinguishing texts written by speakers of five Romance languages (Italian, Catalan, 
 Spanish, Portuguese and French) and five Germanic languages (German, Swiss 
 German, Dutch, Swedish and Danish). Cambridge Learner Corpus contains scripts by 
-students speaking over 130 different L1. Though it is certainly beyond the scope 
-of an MPhil project to cover more L1, let alone all of them. It probably is not 
-feasible to cover all 130 languages in a PhD either. However, it might be 
-possible and interesting to device an algorithm that identifies the language 
-group of L1 of the author, which I would like to investigate as a part of my 
+students speaking over 130 different L1. Though it is not 
+feasible to cover all 130 languages in an MPhil or even a PhD project, it is 
+possible and interesting to devise an algorithm that identifies the language 
+group of the learner's L1, which I would like to investigate as a part of my 
 PhD.
 
-\subsection{Improving error detection and correction using L1}
-With a strong evidence that supports the benefit of authors' L1 in error 
+\subsection{Improving specific error types detection and correction using L1s
+	}
+With strong evidence that supports the benefit of using authors' L1s in error 
 detection and correction, I want to transition into devising such algorithms.
 Among the types of errors non-native speakers may make, I would like to focus on 
-detection and correction of the following.
+detection and correction of the following:
 \begin{enumerate}
 \item Errors in collocations of arbitrary syntactic categories\label{error:1}
 \item Verb form errors \label{error:2}
-\item Spelling Errors \label{error:3}
+\item Spelling errors \label{error:3}
 \end{enumerate}
-In the following sub-sections, I further describe and specify each error and the 
-approach I would like to take to tackle it.
+
+In the following subsections, I further describe and specify each error type and outline the approach I would like to take to tackle error detection in this particular type.
+
+
 \subsubsection{Collocation errors}
 \label{subsub:collocation}
-As stated previously, most works use authors' L1 to \emph{correct} errors in 
-verb-noun collocation. This is only one kind among six, which are:
+As stated previously, most works use authors' L1s to \emph{correct} errors in 
+verb-noun collocations. This is only one type of collocations among others including:
 \begin{itemize}
-\item verb + noun
-\item adjective + noun
-\item noun + noun
-\item adverb + adjective
-\item verb + prepositional phrase
-\item verb + adverb
+\item verb + noun (e.g. \emph{*see/watch TV})
+\item adjective + noun (e.g. \emph{*quick/fast train})
+\item noun + noun (e.g. \emph{a *feel/sense of pride})
+\item adverb + adjective (e.g. \emph{*joyfully/happily married})
+\item verb + prepositional phrase (e.g. \emph{*collapse/burst into tears})
+\item verb + adverb (e.g. \emph{whisper *gently/softly})
 \end{itemize}
 All collocations are hugely language dependent and it is easy to imagine how 
 one's L1 can interfere to cause errors. In my PhD, I would like to work on both 
-detection and correction of each type listed above.
+detection and correction for each type listed above.
 
 I would like to extend the approach presented in the work by 
-\cite{kochmarcross}.  This work is distinct from other works on collocation 
-error detection and correction that use the authors’ L1 for two reasons. 
-Firstly, it is an algorithm for detection, rather than correction, of errors in 
-verb-noun collocation errors. Secondly, rather than using L1-specific properties 
+\cite{kochmarcross}. This work is distinct from other works on collocation 
+error detection and correction that use the authors' L1s for two reasons. 
+Firstly, it is an algorithm for detection, rather than correction, of verb-noun collocation errors. Secondly, rather than using L1-specific properties 
 such as the error patterns of speakers of a given L1, it utilises a semantic 
 model of L1 and L2. These semantic models are built from corpus statistics in 
-each language independently and errors of lexical choice is done using the 
-discrepancies between the two models. The results are promising, and it also 
+each language independently and errors of lexical choice are identified using the 
+discrepancies between the two models. The results are promising, and this work also 
 shows that the semantic model learned from a particular L1 is portable to other, 
 typologically related languages. This approach was applied to texts produced by 
 Spanish and Russian native speakers. I would like to further investigate whether 
 this algorithm can be used to detect other types of errors in texts produced by 
-not only Spanish or Russian speakers, but also other L1 speakers on which data 
-is available in the Cambridge Learner Corpus.
+not only Spanish or Russian speakers, but also other L1 speakers using the data available in the Cambridge Learner Corpus.
 					
 Most works in collocation error correction have relied on dictionaries or 
 manually created databases~\citep{shei2000esl, wible2003bootstrapping, 
-futagi2008computational}. Dictionaries suffer from low coverage and does not 
-provide probability estimate for each candidate translation, and manually 
+futagi2008computational}. Dictionaries suffer from low coverage and do not 
+provide probability estimates for each candidate translation, and manually 
 creating databases is expensive and not scalable. I would like to investigate 
 more data-driven methods, taking advantage of the Cambridge Learner Corpus. For 
 instance, I plan to investigate whether the confusion matrix for a particular L1 
 estimated from the actual learner corpus can be used for collocation errors of 
 arbitrary syntactic types.
 
+
 \subsubsection{Verb form errors}
 \label{subsub:verb}
 A subset of verb form errors that require little contextual information has been 
 investigated well, such as improper user of modals (\emph{they can *built/build 
 a new house}) and overregularised verb inflection 
-(*goed/went)~\citep{chodorow2000unsupervised, leacock2003automated}. These 
-errors are handled well by simple rule-based approaches and they are rarely 
-result of L1 transfer, but simply of author's lack of L1 knowledge. The verb 
-form error that I would like to focus on is verb tense errors. Some tense 
+({\em *goed/went})~\citep{chodorow2000unsupervised, leacock2003automated}. These 
+errors are handled well by simple rule-based approaches as they rarely 
+result from L1 transfer and are more often simply the result of author's lack of L2 knowledge. The type of verb 
+form errors that I would like to focus on comprise verb tense errors. Some tense 
 systems are simpler than that of English and some are more complex. For 
-instance, Chinese is a tenseless language in which the temporal information is 
-conveyed by words that accompany the verb and Italian has finer distinctions in 
-the past tense than English. It is expected that there is a difference in the 
-error pattern between authors of different L1 and therefore L1 could be a useful 
+instance, Chinese is a ``tenseless" language in which the temporal information is 
+conveyed by words that accompany the verb, and Italian has finer distinctions in 
+the past tense than English. It can be assumed that there is a difference in the 
+error patterns between authors of different L1s and therefore L1 could be a useful 
 clue in identifying this type of errors. Verb tense errors are more challenging 
 to detect compared to, for example, overregularised verb inflection, because 
 tenses may be influenced by factors that are not local to the sentence. For 
-example, ``I have a plate of pasta.'' alone is a perfectly grammatical sentence. 
-However, when combined with another sentence in past tense, like in ``I had a 
-great dinner last night. I *have a plate of pasta.'', it is most likely not in 
+example, ``{\em I have a plate of pasta.}'' alone is a perfectly grammatical sentence. 
+However, when combined with another sentence in past tense, like in ``{\em I had a 
+great dinner last night. I *have a plate of pasta.}'', it is most likely to not be in 
 the tense that the author intended.
 
 \cite{tajiri2012tense} regarded verb tense detection and correction as a 
 sequence labelling task, where each member is a verb that appears in the 
-document. The set of features that describe a verb includes namely its 
-part-of-speech tag, its arguments such as subject and object. I would like to 
-augment the model with the authors' L1 and train it on Cambridge Learner Corpus 
+document. The set of features that describe a verb includes its 
+part-of-speech tag, and its arguments such as subject and object. I would like to 
+augment the model with the authors' L1s, train it on the Cambridge Learner Corpus 
 and see whether the performance improves.
 
 It would also be interesting to make an empirical study of the pattern of verb 
-tense errors with respect to authors' L1. The outcome of such study can 
+tense errors with respect to authors' L1s. The outcome of such study can 
 potentially be used to extend the work by \cite{lee2008correcting}. In this 
 work, errors are detected by template matching on parse trees. The templates are 
-created from parse trees that represents a sentence to which they introduced a 
+created from parse trees that represent a sentence to which they introduced a 
 likely error that a non-native speaker would make. Since the sentence is 
 ungrammatical, the parsed tree should look different from those of grammatical 
 sentences. Since the errors which an author is likely to make partially depend 
@@ -214,60 +224,60 @@ on their L1, we could create different templates for each L1 using the error
 patterns found in the empirical study.
 
 \subsubsection{Spelling Errors}
-Spelling errors can be committed by both native and non-native speakers. Task of 
+Spelling errors can be committed by both native and non-native speakers. The task of 
 detecting and correcting spelling errors has been extensively studied for much 
 longer time than any other errors~\citep{heift2007errors}. However, the majority 
 of the work investigates errors made by native speakers. Spelling errors made by 
 non-native speakers are very different from those made by native speakers. The 
-former tend to be a multiple edit distance away from the intended word, where 
+former tend to be a multiple edit distance away from the intended word, whereas 
 the latter tend to have a single edit distance. For example, a native speaker 
-might write ``*spellinf'' instead of ``spelling'', because keys for f and g are 
+might write ``{\em *spellinf}'' instead of ``{\em spelling}'', because keys for {\em f} and {\em g} are 
 adjacent to each other in the QWERTY layout. This spelling mistake is single 
-edit distance away from the correct spelling, as ``spelling'' can be obtained 
-simply from substituting ``f'' with ``g''. Though this type of mistake can also 
+edit distance away from the correct spelling, as ``{\em spelling}'' can be obtained 
+simply from substituting ``{\em f}'' with ``{\em g}''. Though this type of mistake can also 
 be made by non-native speakers, some of the spelling mistakes non-native 
 speakers make rarely occur in texts produced by a native speaker. An example of 
-such mistakes made by Japanese native speakers is ``*libulary''. This is two 
-edit distance away from ``library'', as it can be recovered by eliminating ``u'' 
-and substituting the second ``l'' with ``r''. 
+such mistakes made by Japanese native speakers is ``{\em *libulary}''. This is two 
+edit distance away from ``{\em library}'', as it can be recovered by eliminating ``{\em u}'' 
+and substituting the second ``{\em l}'' with ``{\em r}''. 
 
 Because of the difference in the nature, many spelling checkers perform terribly 
 on non-native speakers texts. Indeed, \cite{rimrott2005language} demonstrates 
 that only 48\% of spelling errors in German texts produced by non-native 
 speakers were corrected by Microsoft Word 2003 spelling checker, precisely 
-because they are designed to catch native speakers' spelling errors. This shows 
-that spelling errors of non-native speakers must be dealt in a different way. 
+because they are designed to capture native speakers' spelling errors. This shows 
+that spelling errors of non-native speakers must be dealt with in a different way. 
 
 \cite{rimrott2008evaluating} claims that spelling errors made by non-native 
-speakers can be classified into three categories which are lexical, 
-morphological and phonological errors. Lexical errors are errors that are made 
-because of the author simply did not know the word in L2. This is often easy to 
-detect as it often results to a non-word spelling error. Morphological errors 
+speakers can be classified into three categories, comprising {\em lexical}, 
+{\em morphological} and {\em phonological} errors. {\em Lexical errors} are errors that are made 
+because the author simply did not know the word in L2. They are easy to 
+detect as such spelling errors often result in non-words. {\em Morphological errors} 
 are characterised by incorrect inflection. For instance, one may not know that 
-``go'' is a irregular verb and write ``goed'', overgeneralising the 
+``{\em go}'' is an irregular verb and write ``{\em goed}'', overgeneralising the 
 morphological rules. This type of errors is not made due to L1 transfer, but 
-should be attributed to the author's lack of the knowledge. Phonological errors 
+should be attributed to the author's lack of the L2 knowledge. {\em Phonological errors}
 are caused by the actual or assumed phonology. The earlier example of 
-``*libulary/library'' is a phonological error. In the Japanese language, with 
-few exceptions, each consonance is followed by a vowel, which caused an 
-unnecessary ``u'' after ``b''.  The substitution of ``l'' with ``r'' is another 
-very common mistake among Japanese native speakers, because ``l'' and ``r'' are 
+``{\em *libulary/library}'' is a phonological error. In the Japanese language, with 
+few exceptions, each consonant is followed by a vowel, which leads to inclusion of an 
+unnecessary ``{\em u}'' after ``{\em b}'' in English.  The substitution of ``{\em l}'' with ``{\em r}'' is another 
+very common mistake among Japanese native speakers, because ``{\em l}'' and ``{\em r}'' are 
 not distinct phonemes in Japanese unlike in English. Such an error pattern must 
 vary from author to author, depending on their L1, therefore, detection and 
 correction of phonological errors should greatly benefit from knowing the 
-authors' L1.
+authors' L1s.
 
-One may take a completely statistical approach to detect phonological errors. 
+One may take a completely statistical approach to phonological errors detection. 
 However, the data might be very sparse. In general, the difficulty of 
 statistical error detection and correction lies in the fact that misuse of the 
 language is much less common that its proper use. It is easy to imagine that a 
-purely statistical approach to detect a sub-type of spelling errors will not 
-work well, because of the lack of enough data. Thus It might be better to 
-extract a common phonological error patterns from Cambridge Learner Corpus and 
+purely statistical approach to detection of a sub-type of spelling errors will not 
+work well, because of the lack of enough data. Thus, it might be better to 
+extract common phonological error patterns from the Cambridge Learner Corpus and 
 create heuristic rules for detection and correction by generalising them.
 
 \section{Work plan}
-To conclude, I present my work plan in the first year in Table 
+To conclude, I present my work plan for the first year in Table 
 \ref{tab:workplan}. Admittedly, not everything discussed in this proposal is 
 included in the plan. The remaining will be worked on in the following years. It 
 is also expected that more research questions will spawn from the first year of 
@@ -292,15 +302,15 @@ Jul-Sep   & Investigate verb form errors, as described in Section
 \end{table}
 
 % L1 transfer is undeniably the source of many errors made by non-native 
-speakers. Previous works have shown that L1 of the learner can improve error 
-correction in texts produced by language learners. I would like to build on 
-these works, namely by investigating other types of errors, making the algorithm 
-more data-driven, extending it to error correction and using finer grained 
-grouping of L1 languages. 
+%speakers. Previous works have shown that L1 of the learner can improve error 
+%correction in texts produced by language learners. I would like to build on 
+%these works, namely by investigating other types of errors, making the algorithm 
+%more data-driven, extending it to error correction and using finer grained 
+%grouping of L1 languages. 
 
 
 
-(2525 words)
+(2844 words)
 
 
 
