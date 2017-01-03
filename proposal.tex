@@ -5,7 +5,7 @@
 \usepackage{color}
 
 
-\title{Improving error detection / correction in English texts of a non-native speaker by using the information about their first language}
+\title{\color{red}Improving error detection and correction in non-native English writing using first language information (??)}
 \author{
  Kaho Sato\\
   \texttt{ks789@cam.ac.uk}
@@ -62,35 +62,35 @@ dahlmeier2011grammatical, de2008classifier, chodorow2007detection}.
 %sets are finite since they are closed-class, which makes the error detection and 
 %correction essentially an n-class classification problem.
 This is not only because these errors occur most frequently, but also because there is a clear approach to their detection and correction, which is to use \emph{classification} algorithms.
-Classification is the problem in machine learning which concerns with choosing the category to which an observation belongs from a finite set of categories.
-There is a wealth of algorithms that solve a classification problem, such as Naive Bayes classifier, Logistic Regression, Decision Trees, Support Vector Machine and Neural Networks, to name a few.
-Both articles and prepositions are \emph{closed class}, meaning that they rarely or never acquire new members.
-Consequently, the set of words in a closed class is small enough that one may use any of the classification algorithms to classify each occurrence into a word in the set which should be used in the occurrence.
-If the algorithm classifies the occurrence into a different word from the word which was actually used by the author,
-then the error is detected and correction is done by substituting the word used by the author with the chosen word.
-Article and preposition errors were the main focus of the 2012 HOO Shared Task~\citep{dale2012hoo} where 14 teams have 
-presented a system that detects and corrects them.
+Classification is concerned with choosing from a finite set of categories a category to which an observation belongs.
+There is a wealth of algorithms that are suitable for solving classification problems, such as Naive Bayes classifier, Logistic Regression, Decision Trees, Support Vector Machine and Neural Networks, to name a few.
+Both articles and prepositions belong to \emph{closed classes} which rarely or never acquire new members.
+Consequently, the set of words in such closed classes is small enough so that one may use any of the classification algorithms to classify each occurrence and predict which member of the set (i.e., which word) should be used for this particular occurrence.
+If the algorithm predicts a different word from the one which was actually used by the author,
+an error is detected and correction is suggested by substituting the word used by the author with the word predicted by the classifier.
+Article and preposition errors were the main focus of the HOO 2012 Shared Task~\citep{dale2012hoo} where 14 teams 
+presented a system that detects and corrects such errors.
 They were also included in the set of error types in the CoNLL 2013 and CoNLL 2014 Shared Tasks on Grammatical Error Correction~\citep{CoNLLST:2013, ng2014conll}.
 
-There also have been some attempts on collocation errors~\citep{shei2000esl, 
+There have also been some attempts on detection and correction of collocation errors~\citep{shei2000esl, 
 wible2003bootstrapping, futagi2008computational, liu2009automated}, though they have been less successful.
-Unfortunately, we can not straightforwardly apply the approaches used for article and preposition errors for two reasons.
-Firstly, collocation errors often involve \emph{open class} words, such as verbs and nouns, which acquire new members constantly. This gives an infinite number of candidate words to substitute for a word in collocations. For example, take a phrase ``\emph{*see TV}''. Unlike for articles or preposition errors, we can not use a classification algorithm to choose the right word from all the words in the same class as ``\emph{see}'', as there are simply too many verbs in English.
+Unfortunately, one can not straightforwardly apply the approaches used for article and preposition errors to collocation errors for two reasons.
+Firstly, collocation errors often involve \emph{open class} words, such as verbs and nouns, which constantly acquire new members. This gives an infinite number of candidate words to substitute for a word used in a collocation. For example, take a phrase ``\emph{*see TV}''. Unlike for articles or preposition errors, we can not use a classification algorithm to choose the right word from all the words in the same class as ``\emph{see}'', as there are simply too many verbs in English.
 Secondly, it is necessary to first identify whether a particular collocation is incorrect before making a correction. For example, ``\emph{a marvellous film}'' is a perfectly acceptable phrase, and we do not want to change it to ``\emph{a good film}'', simply because the latter phrase occurs more frequently. This means that error correction and detection are two separate 
 tasks when we consider collocation errors.
  
-It has been shown that the knowledge on authors' L1 improves algorithms that 
-detect and correct errors in the use of prepositions or 
+It has been shown that the knowledge of authors' L1 improves algorithms that 
+detect and correct errors in the use of prepositions and 
 articles~\citep{rozovskaya2010generating, rozovskaya2011algorithm}. There have 
 also been similar works for collocation errors~\citep{chang2008automatic, 
 dahlmeier2011correcting, shei2000esl, liu2009automated}. However, I believe that 
 there is still much room for investigation on how authors' L1 can be used for 
-detecting and correcting the grammatical errors for three reasons:
+detecting and correcting errors in non-native English writing for three reasons:
 \begin{enumerate}
 \item Out of many 
-types of collocation, most previous research focused on 
+types of collocations, most previous research focused on 
 verb-noun collocation errors (e.g. \emph{*see/watch TV})~\citep{chang2008automatic, shei2000esl, 
-liu2009automated}. Other kinds of collocation such as adjective-noun collocation (e.g. \emph{*big/long conversation}) or adverb-adjective collocation (e.g. \emph{*blissfully/joyfully unaware}) are yet to be explored.
+liu2009automated}. Other kinds of collocations such as adjective-noun collocations (e.g. \emph{*big/long conversation}) or adverb-adjective collocations (e.g. \emph{*blissfully/joyfully unaware}) are yet to be explored.
 \item Most of the previous research on collocation errors focused on correction~\citep{dahlmeier2011correcting, chang2008automatic} and there has been 
 little work on L1-specific detection.
 \item There is hardly any work on how L1 can be used to improve detection and correction of errors beyond article, preposition and collocation errors.
@@ -105,7 +105,7 @@ One of the reasons why there is not much work that takes authors' L1 into
 consideration is that often learner's L1 is not known. For instance, 
 shared tasks that focus on grammatical error detection and correction such as 
 the HOO and the CoNLL shared tasks do not reveal L1 of the authors 
-of the texts in the dataset and it is not likely that word processors such as 
+of the texts in the datasets and it is not likely that word processors such as 
 Microsoft Word would know L1 of the user. In my MPhil project, I plan to 
 investigate whether a pipeline of L1 identification algorithm and error 
 correction algorithm outperforms systems that do not use authors' L1s. If it 
@@ -121,10 +121,10 @@ the existing works. For instance, \cite{kochmar2011identification} focuses on
 distinguishing texts written by speakers of five Romance languages (Italian, Catalan, 
 Spanish, Portuguese and French) and five Germanic languages (German, Swiss 
 German, Dutch, Swedish and Danish). Cambridge Learner Corpus contains scripts by 
-students speaking over 130 different L1. Though it is not 
+students speaking over 130 different L1s. Though it is not 
 feasible to cover all 130 languages in an MPhil or even a PhD project, it is 
 possible and interesting to devise an algorithm that identifies the language 
-group of the learner's L1, which I would like to investigate as a part of my 
+group of the learner's L1, which I would like to investigate as part of my 
 PhD.
 
 \subsection{Improving specific error types detection and correction using L1s
@@ -139,7 +139,7 @@ detection and correction of the following:
 \item Spelling errors \label{error:3}
 \end{enumerate}
 
-In the following subsections, I further describe and specify each error type and outline the approach I would like to take to tackle error detection in this particular type.
+In the following subsections, I further describe and specify each error type and outline the approach I would like to take to tackle error detection and correction in this particular type.
 
 
 \subsubsection{Collocation errors}
